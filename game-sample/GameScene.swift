@@ -19,10 +19,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var touchStartButton: SKNode?
     
-    private var isMovingLeft = false
-    private var isMovingRight = false
-    private var isJumping = false
-    private var isDashing = false
+    private var isMovingLeft: Bool = false
+    private var isMovingRight: Bool = false
+    private var isJumping: Bool = false
+    private var isDashing: Bool = false
     
     private var lastDirection: String = "right"
     
@@ -32,8 +32,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var dashDuration: Double = 0.2
     
-    private var canDash = true
+    private var canDash: Bool = true
     private var dashCoolTime: Double = 0.5
+    private var isGrounded: Bool = true
     
     // 충돌 카테고리
     let playerCategory: UInt32 = 0x1 << 0
@@ -62,8 +63,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             size: CGSize(
                 width: 50,
                 height: 50
-                )
             )
+        )
         player.position = CGPoint(x: frame.midX, y: frame.midY)
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.isDynamic = true
@@ -164,7 +165,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 size: wall.size
             )
             barrier.position = CGPoint(
-                x: wall.minX, 
+                x: wall.minX,
                 y: wall.midY
             )
             barrier.physicsBody = SKPhysicsBody(rectangleOf: wall.size)
@@ -186,7 +187,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.physicsBody?.applyImpulse(CGVector(
                 dx: 0,
                 dy: jumpForce
-                )
+            )
             )
         }
     }
@@ -200,6 +201,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let dashDirection: CGFloat = lastDirection == "right" ? 1 : -1
         let initialDasdhForce: CGFloat = dashForce * 0.9
         let finalDashForce: CGFloat = dashForce * 0.1
+        
+        let isAirborne = !isGrounded
+        
+        if !isAirborne {
+            player.physicsBody?.velocity = .zero
+        }
         
         player.physicsBody?.applyImpulse(
             CGVector(
@@ -218,7 +225,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + (self.dashDuration * 0.1)) {
                 self.isDashing = false
-                self.player.physicsBody?.velocity.dx = 0
+                
+                if !isAirborne {
+                    self.player.physicsBody?.velocity.dx = 0
+                }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + self.dashCoolTime) {
                     self.canDash = true
@@ -227,9 +237,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func checkGrounded() {
+        let rayLength: CGFloat = 2.0
+        
+        guard player.physicsBody != nil else { return }
+        
+        
+        let rayStart = CGPoint(
+            x: player.position.x,
+            y: player.position.y - player.size.height / 2
+        )
+        let rayEnd = CGPoint(
+            x: rayStart.x,
+            y: rayStart.y - rayLength
+        )
+        
+        scene?.physicsWorld.enumerateBodies(alongRayStart: rayStart, end: rayEnd) { body, point, normal, stop in
+            if body.node?.name == "ground" {
+                self.isGrounded = true
+                stop.pointee = true
+            }
+            
+        }
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         
         guard !isDashing else { return }
+        
+        let wasGrounded = isGrounded
+        isGrounded = false
+        
+        checkGrounded()
+        
+        // 상태가 바뀔 때만 처리
+        if wasGrounded != isGrounded {
+            if isGrounded {
+                // 착지 시 실행
+            }
+        }
         
         if isMovingLeft {
             player.physicsBody?.velocity = CGVector(
@@ -255,7 +301,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.location(in: self)
             
             if let node = nodes(at: location).first {
-                    
+                
                 touchStartButton = node
                 
                 switch node.name {

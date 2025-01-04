@@ -26,10 +26,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var lastDirection: String = "right"
     
-    private var moveForce: CGFloat = 200
-    private var jumpForce: CGFloat = 500
-    private var backStepForce: CGFloat = 400
     
+    private var moveForce: CGFloat = 200
+    private var jumpForce: CGFloat = 300
+    private var canDoubleJump: Bool = true
+    
+    private var backStepForce: CGFloat = 400
     private var backStepDuration: Double = 0.2
     
     private var canbackStep: Bool = true
@@ -181,10 +183,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     /* ACTION */
     
-    func performJume() {
-        if !isJumping {
-            isJumping = true
+    func performJump() {
+        if !isJumping && canDoubleJump {
+            
+            canDoubleJump = false
             isGrounded = false
+            
+            player.physicsBody?.applyImpulse(CGVector(
+                dx: 0,
+                dy: jumpForce
+                )
+            )
+            
+        } else if !isJumping {
+            isJumping = true
             player.physicsBody?.applyImpulse(CGVector(
                 dx: 0,
                 dy: jumpForce
@@ -200,11 +212,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         canbackStep = false
         
         let backStepDirection: CGFloat = lastDirection == "right" ? -1 : 1
-        let isAirborne: Bool = !isGrounded
-        
-        if !isAirborne {
-            player.physicsBody?.velocity = .zero
-        }
+//        let isAirborne: Bool = !isGrounded
+//        
+//        if !isAirborne {
+//            player.physicsBody?.velocity = .zero
+//        }
         
         // 처음
         applyBackStepForce(multiplier: 0.9, direction: backStepDirection)
@@ -215,7 +227,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             Timer.scheduledTimer(withTimeInterval: self.backStepDuration * 0.1,
                                  repeats: false) { _ in
-                self.finishBackStep(isAirborne: isAirborne)
+                self.finishBackStep()
             }
         }
         
@@ -225,17 +237,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.applyImpulse(
             CGVector(
                 dx: backStepForce * multiplier * direction,
-                dy: 110
+                dy: (isGrounded ? 110 : 150) * multiplier
             )
         )
     }
     
-    private func finishBackStep(isAirborne: Bool) {
+    private func finishBackStep() {
         isBackSteping = false
         
-        if !isAirborne {
-            player.physicsBody?.velocity.dx = 0
-        }
+        player.physicsBody?.velocity.dx = 0
         
         Timer.scheduledTimer(withTimeInterval: backStepCoolTime,
                              repeats: false) { _ in
@@ -314,7 +324,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     lastDirection = "right"
                     
                 case "jumpButton":
-                    performJume()
+                    performJump()
                     
                 case "backStepButton":
                     performbackStep()
@@ -375,6 +385,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == groundCategory ||
             contact.bodyB.categoryBitMask == groundCategory {
             isJumping = false
+            canDoubleJump = true
             isGrounded = true
         }
     }

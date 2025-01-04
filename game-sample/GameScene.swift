@@ -15,25 +15,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var leftButton: SKSpriteNode!
     private var rightButton: SKSpriteNode!
     private var jumpButton: SKSpriteNode!
-    private var dashButton: SKSpriteNode!
+    private var backStepButton: SKSpriteNode!
     
     private var touchStartButton: SKNode?
     
     private var isMovingLeft: Bool = false
     private var isMovingRight: Bool = false
     private var isJumping: Bool = false
-    private var isDashing: Bool = false
+    private var isBackSteping: Bool = false
     
     private var lastDirection: String = "right"
     
     private var moveForce: CGFloat = 200
     private var jumpForce: CGFloat = 500
-    private var dashForce: CGFloat = 350
+    private var backStepForce: CGFloat = 400
     
-    private var dashDuration: Double = 0.2
+    private var backStepDuration: Double = 0.2
     
-    private var canDash: Bool = true
-    private var dashCoolTime: Double = 0.5
+    private var canbackStep: Bool = true
+    private var backStepCoolTime: Double = 0.5
     private var isGrounded: Bool = true
     
     // 충돌 카테고리
@@ -102,17 +102,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rightButton.alpha = 0.7
         addChild(rightButton)
         
-        dashButton = SKSpriteNode(
+        backStepButton = SKSpriteNode(
             color: .gray,
             size: CGSize(
                 width: 50,
                 height: 50
             )
         )
-        dashButton.position = CGPoint(x: frame.width - 70, y: 100)
-        dashButton.name = "dashButton"
-        dashButton.alpha = 0.7
-        addChild(dashButton)
+        backStepButton.position = CGPoint(x: frame.width - 70, y: 100)
+        backStepButton.name = "backStepButton"
+        backStepButton.alpha = 0.7
+        addChild(backStepButton)
         
         jumpButton = SKSpriteNode(
             color: .gray,
@@ -184,56 +184,62 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func performJume() {
         if !isJumping {
             isJumping = true
+            isGrounded = false
             player.physicsBody?.applyImpulse(CGVector(
                 dx: 0,
                 dy: jumpForce
-            )
+                )
             )
         }
     }
     
-    func performDash() {
-        guard canDash && !isDashing else { return }
+    func performbackStep() {
+        guard canbackStep && !isBackSteping else { return }
         
-        isDashing = true
-        canDash = false
+        isBackSteping = true
+        canbackStep = false
         
-        let dashDirection: CGFloat = lastDirection == "right" ? 1 : -1
-        let initialDasdhForce: CGFloat = dashForce * 0.9
-        let finalDashForce: CGFloat = dashForce * 0.1
-        
-        let isAirborne = !isGrounded
+        let backStepDirection: CGFloat = lastDirection == "right" ? -1 : 1
+        let isAirborne: Bool = !isGrounded
         
         if !isAirborne {
             player.physicsBody?.velocity = .zero
         }
         
+        // 처음
+        applyBackStepForce(multiplier: 0.9, direction: backStepDirection)
+        // 마무리
+        Timer.scheduledTimer(withTimeInterval: backStepDuration * 0.9,
+                             repeats: false) { _ in
+            self.applyBackStepForce(multiplier: 0.1, direction: backStepDirection)
+            
+            Timer.scheduledTimer(withTimeInterval: self.backStepDuration * 0.1,
+                                 repeats: false) { _ in
+                self.finishBackStep(isAirborne: isAirborne)
+            }
+        }
+        
+    }
+    
+    private func applyBackStepForce(multiplier: CGFloat, direction: CGFloat) {
         player.physicsBody?.applyImpulse(
             CGVector(
-                dx: initialDasdhForce * dashDirection,
-                dy: 0
+                dx: backStepForce * multiplier * direction,
+                dy: 110
             )
         )
+    }
+    
+    private func finishBackStep(isAirborne: Bool) {
+        isBackSteping = false
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + (dashDuration * 0.9)) {
-            self.player.physicsBody?.applyImpulse(
-                CGVector(
-                    dx: finalDashForce * dashDirection,
-                    dy: 0
-                )
-            )
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + (self.dashDuration * 0.1)) {
-                self.isDashing = false
-                
-                if !isAirborne {
-                    self.player.physicsBody?.velocity.dx = 0
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + self.dashCoolTime) {
-                    self.canDash = true
-                }
-            }
+        if !isAirborne {
+            player.physicsBody?.velocity.dx = 0
+        }
+        
+        Timer.scheduledTimer(withTimeInterval: backStepCoolTime,
+                             repeats: false) { _ in
+            self.canbackStep = true
         }
     }
     
@@ -263,19 +269,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         
-        guard !isDashing else { return }
-        
-        let wasGrounded = isGrounded
-        isGrounded = false
-        
-        checkGrounded()
-        
-        // 상태가 바뀔 때만 처리
-        if wasGrounded != isGrounded {
-            if isGrounded {
-                // 착지 시 실행
-            }
-        }
+        if isBackSteping { return }
         
         if isMovingLeft {
             player.physicsBody?.velocity = CGVector(
@@ -288,10 +282,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 dy: player.physicsBody?.velocity.dy ?? 0
             )
         } else {
-            player.physicsBody?.velocity = CGVector(
-                dx: 0,
-                dy: player.physicsBody?.velocity.dy ?? 0
-            )
+            
+            if isGrounded {
+                player.physicsBody?.velocity = CGVector(
+                    dx: player.physicsBody?.velocity.dx ?? 0 * 0.98,
+                    dy: player.physicsBody?.velocity.dy ?? 0
+                )
+            } else {
+                player.physicsBody?.velocity.dx = player.physicsBody?.velocity.dx ?? 0 * 0.98
+            }
         }
     }
     
@@ -317,8 +316,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 case "jumpButton":
                     performJume()
                     
-                case "dashButton":
-                    performDash()
+                case "backStepButton":
+                    performbackStep()
                     
                 default:
                     break
@@ -376,6 +375,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == groundCategory ||
             contact.bodyB.categoryBitMask == groundCategory {
             isJumping = false
+            isGrounded = true
         }
     }
 }

@@ -19,6 +19,16 @@ class PlayerNode: SKSpriteNode {
     
     var isBackStepCoolTime: Bool = false
     
+    /* CHARACTER SPEC */
+    var hp: CGFloat = 5
+    
+    var moveForce: CGFloat = 225
+    var jumpForce: CGFloat = 300
+    var backStepForce: CGFloat = 300
+    var backStepDuration: CGFloat = 0.2
+    var backStepCoolTime: CGFloat = 2.0
+    /* CHARACTER SPEC */
+    
     init(size: CGSize) {
         super.init(
             texture: nil,

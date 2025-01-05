@@ -92,6 +92,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E489EB6E2D2A998E00D07049 /* Characters */ = {
+			isa = PBXGroup;
+			children = (
+				E4FC3EEA2D2A67510092B0B8 /* PlayerNode.swift */,
+			);
+			name = Characters;
+			sourceTree = "<group>";
+		};
 		E4E1459E2D2923470092EFD5 = {
 			isa = PBXGroup;
 			children = (
@@ -157,9 +165,9 @@
 		E4FC3EE92D2A673B0092B0B8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				E489EB6E2D2A998E00D07049 /* Characters */,
 				E4FC3EEF2D2A72BA0092B0B8 /* Fields */,
 				E4FC3EEC2D2A6CA10092B0B8 /* Buttons */,
-				E4FC3EEA2D2A67510092B0B8 /* PlayerNode.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";

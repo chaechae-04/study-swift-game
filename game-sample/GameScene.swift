@@ -19,16 +19,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var jumpButton: JumpButton!
     private var backStepButton: BackStepButton!
     
+    /* SPEC START */
+    private var hp: CGFloat!
+    
     /* ACTIONS FORCE */
-    private var moveForce: CGFloat = 225
-    private var jumpForce: CGFloat = 300
-    private var backStepForce: CGFloat = 300
+    private var moveForce: CGFloat!
+    private var jumpForce: CGFloat!
+    private var backStepForce: CGFloat!
     
     /* ACTIONS DURATION */
-    private var backStepDuration: CGFloat = 0.2
+    private var backStepDuration: CGFloat!
     
     /* ACTIONS COOLTIME */
-    private var backStepCoolTime: CGFloat = 2.0
+    private var backStepCoolTime: CGFloat!
+    /* SPEC END */
     
     /* CONTENT CATEGORY */
     public static let playerCategory: UInt32 = 0x1 << 0
@@ -74,7 +78,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /* SET UP */
     private func setupGame() {
         
-        /* PLAYER SET */
+        /* PLAYER SET START */
         player = PlayerNode(
             size: CGSize(
                 width: 30,
@@ -85,6 +89,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             x: frame.midX,
             y: frame.midY
         )
+        
+        /* PLAYER SPEC SET */
+        hp = player.hp
+        moveForce = player.moveForce
+        jumpForce = player.jumpForce
+        backStepForce = player.backStepForce
+        backStepDuration = player.backStepDuration
+        backStepCoolTime = player.backStepCoolTime
+        /* PLAYER SET END */
         
         /* BUTTON SET (MOVE) */
         leftButton = MoveButton(moveForce: moveForce, direction: -1.0)

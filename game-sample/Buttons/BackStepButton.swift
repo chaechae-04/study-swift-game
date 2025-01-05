@@ -54,17 +54,17 @@ class BackStepButton: SKSpriteNode {
         player.run(SKAction.sequence([
             SKAction.applyImpulse(
                 CGVector(
-                    dx: totalDistance * 0.9,
+                    dx: totalDistance,
                     dy: 200
                 ),
-                duration: backStepDuration * 0.7
+                duration: backStepDuration * 0.4
             ),
             SKAction.applyImpulse(
                 CGVector(
-                    dx: totalDistance * 0.1,
+                    dx: (-totalDistance) * 0.3,
                     dy: 0
                 ),
-                duration: backStepDuration * 0.3
+                duration: backStepDuration * 0.2
             )
         ]))
         startCoolTime()

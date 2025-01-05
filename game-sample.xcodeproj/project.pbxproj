@@ -19,6 +19,11 @@
 		E4E145CF2D2923490092EFD5 /* game_sampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E145CE2D2923490092EFD5 /* game_sampleUITests.swift */; };
 		E4E145D12D2923490092EFD5 /* game_sampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E145D02D2923490092EFD5 /* game_sampleUITestsLaunchTests.swift */; };
 		E4E145DF2D29262C0092EFD5 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4E145DE2D29262C0092EFD5 /* SpriteKit.framework */; };
+		E4FC3EEB2D2A67510092B0B8 /* PlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC3EEA2D2A67510092B0B8 /* PlayerNode.swift */; };
+		E4FC3EEE2D2A6CB80092B0B8 /* MoveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC3EED2D2A6CB80092B0B8 /* MoveButton.swift */; };
+		E4FC3EF12D2A72F40092B0B8 /* BasicField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC3EF02D2A72F40092B0B8 /* BasicField.swift */; };
+		E4FC3EF32D2A76AB0092B0B8 /* JumpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC3EF22D2A76AB0092B0B8 /* JumpButton.swift */; };
+		E4FC3EF52D2A843D0092B0B8 /* BackStepButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FC3EF42D2A843D0092B0B8 /* BackStepButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +59,11 @@
 		E4E145CE2D2923490092EFD5 /* game_sampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = game_sampleUITests.swift; sourceTree = "<group>"; };
 		E4E145D02D2923490092EFD5 /* game_sampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = game_sampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		E4E145DE2D29262C0092EFD5 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
+		E4FC3EEA2D2A67510092B0B8 /* PlayerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerNode.swift; sourceTree = "<group>"; };
+		E4FC3EED2D2A6CB80092B0B8 /* MoveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveButton.swift; sourceTree = "<group>"; };
+		E4FC3EF02D2A72F40092B0B8 /* BasicField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicField.swift; sourceTree = "<group>"; };
+		E4FC3EF22D2A76AB0092B0B8 /* JumpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpButton.swift; sourceTree = "<group>"; };
+		E4FC3EF42D2A843D0092B0B8 /* BackStepButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackStepButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +116,7 @@
 		E4E145A92D2923480092EFD5 /* game-sample */ = {
 			isa = PBXGroup;
 			children = (
+				E4FC3EE92D2A673B0092B0B8 /* Components */,
 				E4E145AA2D2923480092EFD5 /* AppDelegate.swift */,
 				E4E145AC2D2923480092EFD5 /* GameScene.sks */,
 				E4E145AE2D2923480092EFD5 /* Actions.sks */,
@@ -141,6 +152,34 @@
 				E4E145DE2D29262C0092EFD5 /* SpriteKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E4FC3EE92D2A673B0092B0B8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E4FC3EEF2D2A72BA0092B0B8 /* Fields */,
+				E4FC3EEC2D2A6CA10092B0B8 /* Buttons */,
+				E4FC3EEA2D2A67510092B0B8 /* PlayerNode.swift */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		E4FC3EEC2D2A6CA10092B0B8 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				E4FC3EED2D2A6CB80092B0B8 /* MoveButton.swift */,
+				E4FC3EF22D2A76AB0092B0B8 /* JumpButton.swift */,
+				E4FC3EF42D2A843D0092B0B8 /* BackStepButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		E4FC3EEF2D2A72BA0092B0B8 /* Fields */ = {
+			isa = PBXGroup;
+			children = (
+				E4FC3EF02D2A72F40092B0B8 /* BasicField.swift */,
+			);
+			name = Fields;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,6 +315,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4FC3EF52D2A843D0092B0B8 /* BackStepButton.swift in Sources */,
+				E4FC3EEE2D2A6CB80092B0B8 /* MoveButton.swift in Sources */,
+				E4FC3EF12D2A72F40092B0B8 /* BasicField.swift in Sources */,
+				E4FC3EF32D2A76AB0092B0B8 /* JumpButton.swift in Sources */,
+				E4FC3EEB2D2A67510092B0B8 /* PlayerNode.swift in Sources */,
 				E4E145B12D2923480092EFD5 /* GameScene.swift in Sources */,
 				E4E145B32D2923480092EFD5 /* GameViewController.swift in Sources */,
 				E4E145AB2D2923480092EFD5 /* AppDelegate.swift in Sources */,
@@ -460,6 +504,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8ZB4U624MW;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -487,6 +532,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8ZB4U624MW;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

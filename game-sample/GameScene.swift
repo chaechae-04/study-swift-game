@@ -18,6 +18,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var rightButton: MoveButton!
     private var jumpButton: JumpButton!
     private var backStepButton: BackStepButton!
+    private var attackButton: AttackButton!
     
     /* SPEC START */
     private var hp: CGFloat!
@@ -26,12 +27,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var moveForce: CGFloat!
     private var jumpForce: CGFloat!
     private var backStepForce: CGFloat!
+    private var attackForce: CGFloat!
     
     /* ACTIONS DURATION */
     private var backStepDuration: CGFloat!
     
     /* ACTIONS COOLTIME */
     private var backStepCoolTime: CGFloat!
+    private var attackCoolTime: CGFloat!
     /* SPEC END */
     
     /* CONTENT CATEGORY */
@@ -52,9 +55,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         /* move */
         [leftButton, rightButton].forEach { button in
             
+            guard let player = button.player else { return }
+            
             if button.isPressed {
                 button.movePlayer()
-            } else if let player = button.player, !player.isGrounded {
+            } else if !player.isGrounded {
                 player.physicsBody?.velocity.dx *= 0.95
             }
             
@@ -95,19 +100,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         moveForce = player.moveForce
         jumpForce = player.jumpForce
         backStepForce = player.backStepForce
+        attackForce = player.attackForce
         backStepDuration = player.backStepDuration
         backStepCoolTime = player.backStepCoolTime
+        attackCoolTime = player.attackCoolTime
         /* PLAYER SET END */
         
         /* BUTTON SET (MOVE) */
-        leftButton = MoveButton(moveForce: moveForce, direction: -1.0)
+        leftButton = MoveButton(
+            moveForce: moveForce,
+            direction: -1.0
+        )
         leftButton.player = player
         leftButton.position = CGPoint(
             x: 80,
             y: 100
         )
         
-        rightButton = MoveButton(moveForce: moveForce, direction: 1.0)
+        rightButton = MoveButton(
+            moveForce: moveForce,
+            direction: 1.0
+        )
         rightButton.player = player
         rightButton.position = CGPoint(
             x: 160,
@@ -115,7 +128,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         )
         
         /* BUTTON SET (JUMP) */
-        jumpButton = JumpButton(jumpForce: jumpForce)
+        jumpButton = JumpButton(
+            jumpForce: jumpForce
+        )
         jumpButton.player = player
         jumpButton.position = CGPoint(
             x: frame.width - 160,
@@ -123,13 +138,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         )
         
         /* BUTTON SET (BACKSTEP) */
-        backStepButton = BackStepButton(backStepForce: backStepForce, backStepCoolTime: backStepCoolTime,backStepDuration: backStepDuration)
+        backStepButton = BackStepButton(
+            backStepForce: backStepForce,
+            backStepCoolTime: backStepCoolTime,
+            backStepDuration: backStepDuration
+        )
         backStepButton.player = player
         backStepButton.position = CGPoint(
             x: frame.width - 80,
             y: 100
         )
         backStepButton.zPosition = 10
+        
+        /* BUTTON SET (ATTACK) */
+        attackButton = AttackButton(
+            attackForce: attackForce,
+            attackCoolTime: attackCoolTime
+        )
+        attackButton.player = player
+        attackButton.position = CGPoint(
+            x: frame.width - 80,
+            y: 180
+        )
         
         /* FIELD SET */
         field = BasicField(size: self.size)
@@ -141,6 +171,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(rightButton)
         addChild(jumpButton)
         addChild(backStepButton)
+        addChild(attackButton)
         
         addChild(field)
         

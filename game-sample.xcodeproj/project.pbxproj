@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E489EB702D2BCA8200D07049 /* AttackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E489EB6F2D2BCA8200D07049 /* AttackButton.swift */; };
 		E4E145AB2D2923480092EFD5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E145AA2D2923480092EFD5 /* AppDelegate.swift */; };
 		E4E145AD2D2923480092EFD5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E4E145AC2D2923480092EFD5 /* GameScene.sks */; };
 		E4E145AF2D2923480092EFD5 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E4E145AE2D2923480092EFD5 /* Actions.sks */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E489EB6F2D2BCA8200D07049 /* AttackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttackButton.swift; sourceTree = "<group>"; };
 		E4E145A72D2923480092EFD5 /* game-sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "game-sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4E145AA2D2923480092EFD5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E4E145AC2D2923480092EFD5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				E4FC3EED2D2A6CB80092B0B8 /* MoveButton.swift */,
 				E4FC3EF22D2A76AB0092B0B8 /* JumpButton.swift */,
 				E4FC3EF42D2A843D0092B0B8 /* BackStepButton.swift */,
+				E489EB6F2D2BCA8200D07049 /* AttackButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E489EB702D2BCA8200D07049 /* AttackButton.swift in Sources */,
 				E4FC3EF52D2A843D0092B0B8 /* BackStepButton.swift in Sources */,
 				E4FC3EEE2D2A6CB80092B0B8 /* MoveButton.swift in Sources */,
 				E4FC3EF12D2A72F40092B0B8 /* BasicField.swift in Sources */,

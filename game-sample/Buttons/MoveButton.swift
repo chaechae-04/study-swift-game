@@ -44,7 +44,7 @@ class MoveButton: SKSpriteNode {
     }
     
     public func movePlayer() {
-        guard isPressed else { return }
+        guard isPressed, !(player?.isBackSteping ?? false) else { return }
         
         player?.physicsBody?.velocity.dx = direction * moveForce
         player?.lastDirection = direction == 1.0 ? "right" : "left"

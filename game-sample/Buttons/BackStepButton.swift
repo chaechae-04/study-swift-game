@@ -50,8 +50,13 @@ class BackStepButton: SKSpriteNode {
         let direction: CGFloat = player.lastDirection == "right" ? -1.0 : 1.0
         let totalDistance: CGFloat = player.isDoubleJumping ? direction * (backStepForce + 300) : direction * backStepForce
         
+        player.isBackSteping = true
+        
         
         player.run(SKAction.sequence([
+            SKAction.run { [weak self] in
+                self?.player?.isBackSteping = true
+            },
             SKAction.applyImpulse(
                 CGVector(
                     dx: totalDistance,
@@ -65,8 +70,13 @@ class BackStepButton: SKSpriteNode {
                     dy: 0
                 ),
                 duration: backStepDuration * 0.2
-            )
+            ),
+            SKAction.wait(forDuration: backStepDuration * 0.4),
+            SKAction.run { [weak self] in
+                self?.player?.isBackSteping = false
+            },
         ]))
+        
         startCoolTime()
     }
     

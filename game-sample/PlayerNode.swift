@@ -16,8 +16,10 @@ class PlayerNode: SKSpriteNode {
     var isJumping: Bool = false
     var isGrounded: Bool = false
     var isDoubleJumping: Bool = false
+    var isBackSteping: Bool = false
     
     var isBackStepCoolTime: Bool = false
+    var isAttackCoolTime: Bool = false
     
     /* CHARACTER SPEC */
     var hp: CGFloat = 5
@@ -25,8 +27,10 @@ class PlayerNode: SKSpriteNode {
     var moveForce: CGFloat = 225
     var jumpForce: CGFloat = 300
     var backStepForce: CGFloat = 300
+    var attackForce: CGFloat = 3
     var backStepDuration: CGFloat = 0.2
     var backStepCoolTime: CGFloat = 2.0
+    var attackCoolTime: CGFloat = 0.2
     /* CHARACTER SPEC */
     
     init(size: CGSize) {

@@ -27,3 +27,12 @@ struct MenuButtonConfig {
         static let stages = ["Stage 1", "Stage 2", "Stage 3"]
     }
 }
+
+/* 아직 고쳐야 함 */
+struct SystemButtonConfig {
+    struct Pause {
+        static let size: CGSize = CGSize(width: 40, height: 40)
+        static let padding: CGFloat = 20
+        static let text: String = "||"
+    }
+}

@@ -8,7 +8,10 @@
 import SpriteKit
 
 class StageScene: SKScene {
+    
     let stageNumber: Int
+    
+    private var pauseButton: SKSpriteNode?
     
     init(size: CGSize, stageNumber: Int) {
         self.stageNumber = stageNumber
@@ -20,38 +23,51 @@ class StageScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        setupSystemButtons()
         setupStage()
     }
     
+    /* PAUSE BUTTON : padding 값 고쳐야 함 */
+    private func setupSystemButtons() {
+        pauseButton = SKSpriteNode(color: .gray, size: SystemButtonConfig.Pause.size)
+        if let pauseButton = pauseButton {
+            pauseButton.position = CGPoint(
+                x: size.width - SystemButtonConfig.Pause.padding,
+                y: size.height - SystemButtonConfig.Pause.padding
+            )
+            pauseButton.name = "pauseButton"
+            addChild(pauseButton)
+        }
+    }
+    
     private func setupStage() {
-        // 스테이지 설정
-        let field = GameField(width: size.width, height: size.height)
+        // PhysicsWorld Set
+        physicsWorld.gravity = CGVector(dx: 0, dy: GameSettings.System.gravity)
         
-        field.addPlatform(
-            .ground,
-            at: CGPoint(x: size.width / 2, y: 25),
-            size: CGSize(width: size.width, height: 20)
-        )
+        switch stageNumber {
+        case 1:
+            Stage1.setup(in: self)
+        case 2:
+            Stage2.setup(in: self)
+        case 3:
+            Stage3.setup(in: self)
+        default:
+            Stage1.setup(in: self)
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        let location = touch.location(in: self)
+        let touchedNode = nodes(at: location).first
         
-        // 플레이어 설정
-        let player = GameCharacter(
-            texture: nil,
-            state: BasicCharacterState.stats
-        )
-        
-        player.color = .red
-        player.size = CGSize(width: 30, height: 30)
-        player.position = CGPoint(x: 100, y: 50)
-        
-        // 엔티티 설정
-        let enemy = BasicGameEntity(texture: nil)
-        enemy.color = .blue
-        enemy.size = CGSize(width: 30, height: 30)
-        enemy.position = CGPoint(x: size.width - 100, y: 50)
-        
-        addChild(field)
-        addChild(player)
-        addChild(enemy)
-        
+        if touchedNode?.name == "pauseButton" {
+            togglePause()
+        }
+    }
+    
+    /* PAUSE BUTTON ACTION */
+    private func togglePause() {
+
     }
 }

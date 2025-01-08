@@ -52,8 +52,10 @@ class MenuScene: SKScene {
         let touchedNodes = nodes(at: location)
         
         for node in touchedNodes {
-            if node.name == MenuButtonConfig.Text.stages[0] {
-                let stageScene = SceneManager.loadScene(.stage(number: 1), size: size)
+            if let stageName = node.name,
+               let stageIndex = MenuButtonConfig.Text.stages.firstIndex(of: stageName) {
+                let stageNumber = stageIndex + 1
+                let stageScene = SceneManager.loadScene(.stage(number: stageNumber), size: size)
                 view?.presentScene(stageScene)
                 break
             }

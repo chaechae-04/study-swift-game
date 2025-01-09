@@ -8,18 +8,36 @@
 import SpriteKit
 
 struct MenuButtonConfig {
-    static let size: CGSize = CGSize(width: 200, height: 60)
-    static let spacing: CGFloat = 100
+    static var size: CGSize {
+        let baseWidth: CGFloat = 200
+        let baseHeight: CGFloat = 60
+        let ratio = GameSettings.Screen.scaleRatio
+        return CGSize(
+            width: baseWidth * ratio, 
+            height: baseHeight * ratio
+        )
+    }
+    
+    static var spacing: CGFloat {
+        return 100 * GameSettings.Screen.scaleRatio
+    }
     
     struct Position {
-        static let titleY: CGFloat = -100       // from top
-        static let firstButtonY: CGFloat = 100  // from middle
+        static var titleY: CGFloat {
+            return -100 * GameSettings.Screen.scaleRatio
+        }
+        
+        static var firstButtonY: CGFloat {
+            return 100 * GameSettings.Screen.scaleRatio
+        }
     }
     
     struct Style {
+        static var fontSize: CGFloat {
+            return 20 * GameSettings.Screen.scaleRatio
+        }
         static let fillColor: SKColor = .gray
         static let strokeColor: SKColor = .white
-        static let fontSize: CGFloat = 20
     }
     
     struct Text {
@@ -31,8 +49,17 @@ struct MenuButtonConfig {
 /* 아직 고쳐야 함 */
 struct SystemButtonConfig {
     struct Pause {
-        static let size: CGSize = CGSize(width: 40, height: 40)
-        static let padding: CGFloat = 20
+        static var size: CGSize {
+            let baseWidth: CGFloat = 40
+            let baseHeight: CGFloat = 40
+            return CGSize(
+                width: baseWidth * GameSettings.Screen.scaleRatio,
+                height: baseHeight * GameSettings.Screen.scaleRatio
+            )
+        }
+        static var padding: CGFloat {
+            return 20 * GameSettings.Screen.scaleRatio
+        }
         static let text: String = "||"
     }
 }

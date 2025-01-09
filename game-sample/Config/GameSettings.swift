@@ -13,6 +13,11 @@ struct GameSettings {
         static let width: CGFloat = 1024
         static let height: CGFloat = 768
         static let fps: Int = 60
+        
+        static var scaleRatio: CGFloat {
+            let currentSize = UIScreen.main.bounds.size
+            return min(currentSize.width / width, currentSize.height / height)
+        }
     }
     
     struct Difficulty {

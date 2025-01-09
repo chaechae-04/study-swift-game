@@ -13,11 +13,18 @@ class MenuScene: SKScene {
     }
     
     private func setupMenu() {
+        // 화면 크기 및 비율 설정
+        self.size = CGSize(
+            width: GameSettings.Screen.width,
+            height: GameSettings.Screen.height
+        )
+        self.scaleMode = .aspectFit
+        
         let titleLabel = SKLabelNode(text: MenuButtonConfig.Text.title)
-        titleLabel.fontSize = MenuButtonConfig.Style.fontSize * 1.5
+        titleLabel.fontSize = MenuButtonConfig.Style.fontSize * 1.5 * GameSettings.Screen.scaleRatio
         titleLabel.position = CGPoint(
             x: frame.midX,
-            y: frame.maxY + MenuButtonConfig.Position.titleY
+            y: frame.maxY + MenuButtonConfig.Position.titleY * GameSettings.Screen.scaleRatio
         )
         addChild(titleLabel)
         
@@ -29,17 +36,22 @@ class MenuScene: SKScene {
     }
     
     private func createStageButton(_ title: String, at index: Int) -> SKNode {
-        let button = SKShapeNode(rectOf: MenuButtonConfig.size)
+        let buttonSize = CGSize(
+            width: MenuButtonConfig.size.width * GameSettings.Screen.scaleRatio,
+            height: MenuButtonConfig.size.height * GameSettings.Screen.scaleRatio
+        )
+        
+        let button = SKShapeNode(rectOf: buttonSize)
         button.fillColor = MenuButtonConfig.Style.fillColor
         button.strokeColor = MenuButtonConfig.Style.strokeColor
         button.position = CGPoint(
             x: frame.midX,
-            y: frame.midY + MenuButtonConfig.Position.firstButtonY - (MenuButtonConfig.spacing * CGFloat(index))
+            y: frame.midY + MenuButtonConfig.Position.firstButtonY - (MenuButtonConfig.spacing * CGFloat(index)) * GameSettings.Screen.scaleRatio
         )
         
         let label = SKLabelNode(text: title)
-        label.fontSize = MenuButtonConfig.Style.fontSize
-        label.position = CGPoint(x: 0, y: -7)
+        label.fontSize = MenuButtonConfig.Style.fontSize * GameSettings.Screen.scaleRatio
+        label.position = CGPoint(x: 0, y: -7 * GameSettings.Screen.scaleRatio)
         button.addChild(label)
         
         button.name = title

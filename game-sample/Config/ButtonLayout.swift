@@ -9,8 +9,11 @@ import SpriteKit
 
 struct MenuButtonConfig {
     static var size: CGSize {
-        let baseWidth: CGFloat = 200
-        let baseHeight: CGFloat = 60
+        // 200 -> 50
+        // 60  -> 15
+        // 1/4
+        let baseWidth: CGFloat = 50
+        let baseHeight: CGFloat = 15
         let ratio = GameSettings.Screen.scaleRatio
         return CGSize(
             width: baseWidth * ratio, 
@@ -19,22 +22,22 @@ struct MenuButtonConfig {
     }
     
     static var spacing: CGFloat {
-        return 100 * GameSettings.Screen.scaleRatio
+        return 25 * GameSettings.Screen.scaleRatio
     }
     
     struct Position {
         static var titleY: CGFloat {
-            return -100 * GameSettings.Screen.scaleRatio
+            return -25 * GameSettings.Screen.scaleRatio
         }
         
         static var firstButtonY: CGFloat {
-            return 100 * GameSettings.Screen.scaleRatio
+            return 25 * GameSettings.Screen.scaleRatio
         }
     }
     
     struct Style {
         static var fontSize: CGFloat {
-            return 20 * GameSettings.Screen.scaleRatio
+            return 5 * GameSettings.Screen.scaleRatio
         }
         static let fillColor: SKColor = .gray
         static let strokeColor: SKColor = .white

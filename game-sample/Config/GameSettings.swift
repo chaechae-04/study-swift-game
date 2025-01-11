@@ -10,14 +10,30 @@ import SpriteKit
 struct GameSettings {
     
     struct Screen {
-        static let width: CGFloat = 1024
-        static let height: CGFloat = 768
+        /* iPhone 15 Pro : 2556 * 1179 */
+        /* FHD : 1920 * 1080 */
+        static let width: CGFloat = 2556
+        static let height: CGFloat = 1179
         static let fps: Int = 60
         
         static var scaleRatio: CGFloat {
             let currentSize = UIScreen.main.bounds.size
-            return min(currentSize.width / width, currentSize.height / height)
+            return max(width / currentSize.width, height / currentSize.height)
         }
+    }
+    
+    struct Character {
+        static let width: CGFloat = 20
+        static let height: CGFloat = 25
+    }
+    
+    struct Entity {
+        static let width: CGFloat = 20
+        static let height: CGFloat = 20
+    }
+    
+    struct Ground {
+        static let height: CGFloat = 20
     }
     
     struct Difficulty {

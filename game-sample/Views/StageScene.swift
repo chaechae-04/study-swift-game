@@ -16,6 +16,16 @@ class StageScene: SKScene {
     init(size: CGSize, stageNumber: Int) {
         self.stageNumber = stageNumber
         super.init(size: size)
+        
+        // 화면 크기 및 비율 설정
+        self.size = CGSize(
+            width: GameSettings.Screen.width,
+            height: GameSettings.Screen.height
+        )
+        self.scaleMode = .resizeFill
+        
+        // PhysicsWorld Set
+        physicsWorld.gravity = CGVector(dx: 0, dy: GameSettings.System.gravity)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,8 +51,6 @@ class StageScene: SKScene {
     }
     
     private func setupStage() {
-        // PhysicsWorld Set
-        physicsWorld.gravity = CGVector(dx: 0, dy: GameSettings.System.gravity)
         
         switch stageNumber {
         case 1:

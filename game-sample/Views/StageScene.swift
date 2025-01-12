@@ -17,11 +17,6 @@ class StageScene: SKScene {
         self.stageNumber = stageNumber
         super.init(size: size)
         
-        // 화면 크기 및 비율 설정
-        self.size = CGSize(
-            width: GameSettings.Screen.width,
-            height: GameSettings.Screen.height
-        )
         self.scaleMode = .resizeFill
         
         // PhysicsWorld Set
@@ -33,7 +28,7 @@ class StageScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        setupSystemButtons()
+//        setupSystemButtons()
         setupStage()
     }
     

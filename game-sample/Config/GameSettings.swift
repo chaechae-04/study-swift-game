@@ -23,17 +23,17 @@ struct GameSettings {
     }
     
     struct Character {
-        static let width: CGFloat = 20
-        static let height: CGFloat = 25
+        static let width: CGFloat = 5
+        static let height: CGFloat = 7.5
     }
     
     struct Entity {
-        static let width: CGFloat = 20
-        static let height: CGFloat = 20
+        static let width: CGFloat = 5
+        static let height: CGFloat = 5
     }
     
     struct Ground {
-        static let height: CGFloat = 20
+        static let height: CGFloat = 5
     }
     
     struct Difficulty {

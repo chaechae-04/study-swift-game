@@ -11,8 +11,8 @@ struct GameStageConfig {
     struct Size {
         static var field: CGSize {
             return CGSize(
-                width: GameSettings.Screen.width * GameSettings.Screen.scaleRatio,
-                height: GameSettings.Screen.height * GameSettings.Screen.scaleRatio
+                width: GameSettings.Screen.width,
+                height: GameSettings.Screen.height
             )
         }
         
@@ -32,7 +32,7 @@ struct GameStageConfig {
         
         static var ground: CGSize {
             return CGSize(
-                width: GameSettings.Screen.width * GameSettings.Screen.scaleRatio,
+                width: GameSettings.Screen.width,
                 height: GameSettings.Ground.height * GameSettings.Screen.scaleRatio
             )
         }
@@ -41,22 +41,22 @@ struct GameStageConfig {
     struct Position {
         static func ground() -> CGPoint {
             return CGPoint(
-                x: GameSettings.Screen.width * GameSettings.Screen.scaleRatio / 2,
-                y: 20 * GameSettings.Screen.scaleRatio
+                x: GameSettings.Screen.width / 2,
+                y: GameSettings.Ground.height * GameSettings.Screen.scaleRatio
             )
         }
         
         static func player() -> CGPoint {
             return CGPoint(
-                x: 100 * GameSettings.Screen.scaleRatio,
-                y: (GameSettings.Screen.height / 2) * GameSettings.Screen.scaleRatio
+                x: GameStageConfig.Size.ground.width * 0.1,
+                y: GameSettings.Screen.height / 2
             )
         }
         
         static func enemy() -> CGPoint {
             return CGPoint(
-                x: (GameSettings.Screen.width - 100) * GameSettings.Screen.scaleRatio,
-                y: (GameSettings.Screen.height / 2) * GameSettings.Screen.scaleRatio
+                x: GameStageConfig.Size.ground.width * 0.9,
+                y: GameSettings.Screen.height / 2
             )
         }
     }
